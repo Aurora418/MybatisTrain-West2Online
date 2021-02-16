@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace和自己设置的StudentMapper接口绑定，类似实现接口-->
+<mapper namespace="com.aurora.mapper.StudentMapper">
+    <!--id指方法名，类似实现接口后要重写的方法-->
+    <select id="getStudentList" resultType="com.aurora.pojo.Student">
+        select * from students
+    </select>
+
+    <select id="getStudent" resultType="com.aurora.pojo.Student" parameterType="string">
+        select * from students where Snum=#{Snum}
+    </select>
+
+    <delete id="deleteStudent" parameterType="com.aurora.pojo.Student">
+        delete from students
+        <where>
+            <if test="Snum!=null">Snum=#{Snum}</if>
+            <if test="Sname!=null">AND Sname=#{Sname}</if>
+            <if test="Ssex!=null">AND Ssex=#{Ssex}</if>
+            <if test="Tname!=null">AND Tname=#{Tname}</if>
+            <if test="Sclass!=0">AND Sclass=#{Sclass}</if>
+        </where>
+    </delete>
+
+    <insert id="addStudent" parameterType="com.aurora.pojo.Student">
+        insert into students value(#{Snum},#{Sname},#{Ssex},#{Tname},#{Sclass})
+    </insert>
+
+    <update id="updateStudent">
+        update students
+        <set>
+            <if test="student.Snum!=null">Snum=#{student.Snum},</if>
+            <if test="student.Sname!=null">Sname=#{student.Sname},</if>
+            <if test="student.Ssex!=null">Ssex=#{student.Ssex},</if>
+            <if test="student.Tname!=null">Tname=#{student.Tname},</if>
+            <if test="student.Sclass!=0">Sclass=#{student.Sclass}</if>
+        </set>
+        where Snum=#{Snum}
+    </update>
+</mapper>
